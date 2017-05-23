@@ -4,16 +4,21 @@ package server
 import (
         "fmt"
         "net/http"
-        "golang-workshop-coding/store"
+//        "golang-workshop-coding/store"
         "encoding/json"
+        "golang-workshop-coding/store"
 )
 
 func Handle() {
 
         mux := http.NewServeMux()
+
         store := store.NewFileStore("web.json")
         mux.Handle("/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
                 fmt.Fprintf(w, "No function!")
+        }))
+        mux.Handle("/status", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+                fmt.Fprintf(w, "ok!")
         }))
         mux.Handle("/keyStore/list", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
                 c, e := keysToJson(store.Keys())
@@ -44,9 +49,11 @@ func Handle() {
                                 }
                 }
         }))
-        err := http.ListenAndServe(":8080", http.DefaultServeMux)
+        err := http.ListenAndServe(":8090", mux)
         if err != nil {
+                fmt.Printf(err.Error())
                 panic(err)
+
         }
 }
 

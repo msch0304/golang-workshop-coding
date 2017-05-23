@@ -7,7 +7,7 @@ import (
 )
 
 //go:generate go get github.com/golang/mock/mockgen
-//go:generate $GOPATH/bin/mockgen -self_package store -package store -destination ./store/mocks_test.go
+//go:generate $GOPATH/bin/mockgen -source $GOPATH/src/golang-workshop-coding/store/interfaces.go -package golang-workshop-coding/store -destination $GOPATH/src/golang-workshop-coding/store/mocks_test.go
 func TestFileStore_Get(t *testing.T) {
         store := newFileStore("test.json")
         assert.Equal(t, "test.json", store.FileName)
